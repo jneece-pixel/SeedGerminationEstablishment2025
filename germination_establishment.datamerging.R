@@ -44,20 +44,35 @@ germ<-germ %>% mutate(canopy.cover.E= 100- (canopy.cover.E*1.04),
                 canopy.cover.N= 100- (canopy.cover.N*1.04),
                 canopy.cover.S= 100- (canopy.cover.S*1.04),
                 canopy.cover.W= 100- (canopy.cover.W*1.04))
-germ$canopy.cover.mean<- rowSums(germ[, 12:15])/4
+germ$canopy.cover.mean<- rowSums(germ[, 10:13])/4
 
-#write.csv(germ, "germination_establishment.summaries.csv")
-rm(germ.data); rm(germ.plot); rm(germ.summary); rm(plot.summary)
+#write.csv(germ, "germination_establishment.summaries.csv", row.names = FALSE)
+rm(germ.data); rm(germ.plot); rm(germ_est.summary); rm(plot.summary)
 
-pico.germ_est<- germ%>% filter(Species== "pico")
-psme.germ_est<- germ %>% filter(Species == "psme")
+#reading in plot topography data
+gis.data<- read.csv("intens.all.gis.csv")
+gis.data<- gis.data %>% 
+  rename("SiteID"= "Plot.ID", 
+         "elevation.m"="Elevation..m.", 
+         "TRI.30"= "TRI", 
+         "TPI.30"= "TPI", 
+         "aspect"= "Aspect")
 
-#visualising data with histograms
-hist(pico.germ_est$germ.rate.spring.logit, breaks= 12)
-#definitely not normally distributed. Heavily skewed towards 0. 
-hist(psme.germ_est$germ.rate.spring.logit, breaks= 12)
+#merging gis and summary data
+germ<- merge(germ, gis.data, by= "SiteID")
 
-#total means for June data collection
+#Plot attributes
+germ %>% summarize(mean.TRI= mean(TRI.30), SE.TRI= std.error(TRI.30), 
+                   min.TRI= min(TRI.30), med.TRI= median(TRI.30), max.TRI= max(TRI.30))
+germ %>% summarize(mean.TPI= mean(TPI.30), SE.TPI= std.error(TPI.30), 
+                   min.TPI= min(TPI.30), med.TPI= median(TPI.30), max.TPI= max(TPI.30))
+germ %>% summarize(mean.elevation= mean(elevation.m), SE.elevation= std.error(elevation.m), 
+                   min.elevation= min(elevation.m), med.elevation= median(elevation.m), max.elevation= max(elevation.m))
+germ %>% summarize(mean.aspect= mean(aspect), SE.aspect= std.error(aspect), 
+                   min.aspect= min(aspect), med.aspect= median(aspect), max.elevation= max(aspect))
+
+## getting germination and survival means by species, by season
+
 library(plotrix)
 #germination means by species
 germ %>% group_by(Species) %>% 
@@ -79,16 +94,6 @@ germ %>% group_by(Species) %>%
   summarize(mean.surv= mean(surv.rate.fall), SE.surv= std.error(surv.rate.fall), 
             min.surv= min(surv.rate.fall), med.surv= median(surv.rate.fall), 
             max.surv= max(surv.rate.fall), n= n())
-
-#Plot attributes
-germ %>% summarize(mean.TRI= mean(TRI.30), SE.TRI= std.error(TRI.30), 
-                   min.TRI= min(TRI.30), med.TRI= median(TRI.30), max.TRI= max(TRI.30))
-germ %>% summarize(mean.TPI= mean(TPI.30), SE.TPI= std.error(TPI.30), 
-                   min.TPI= min(TPI.30), med.TPI= median(TPI.30), max.TPI= max(TPI.30))
-germ %>% summarize(mean.elevation= mean(elevation), SE.elevation= std.error(elevation), 
-                   min.elevation= min(elevation), med.elevation= median(elevation), max.elevation= max(elevation))
-germ %>% summarize(mean.aspect= mean(aspect), SE.aspect= std.error(aspect), 
-                   min.aspect= min(aspect), med.aspect= median(aspect), max.elevation= max(aspect))
 
 #following instructions on densiometer for canopy cover measurements. Multiply count of open quadrants
 #by 1.04 for the percent of non-canopy cover. Take 100 minus value for estimate of canopy cover. 

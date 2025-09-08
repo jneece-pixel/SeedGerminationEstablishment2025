@@ -1,13 +1,13 @@
-SiteID,ruggedness,TRI.30,shape,TPI.30,Date,Investigators,tomst.intallation.time,canopy.cover.N,canopy.cover.E,canopy.cover.S,canopy.cover.W,elevation,aspect,aspect.gen,Notes
-CR01,high,11.10871538,convex,6.496385668,6.24.25,TK.CC.JN,10:34,82,67,67,87,2437.812423,323.7876155,NW,"""thunderstorm plot""; plot faces N; full of hollyhock; S group faces SW, all others N; note for future studies: preemtively put duct tape on tray corners at installation since that is where they tend to break"
-CR02,high,11.12948486,convex,2.872052544,6.24.25,TK.CC.JN,13:11,51,44,54,68,2329.692154,261.5200827,W,four hoof prints in N pico; lots of Pearson's milkvetch and hollyhocks
-CR03,high,8.587282037,convex,3.499287584,6.24.25,TK.CC.JN,9:24,58,64,88,81,2308.659484,252.7679256,W,C and S groups in short aspen grove; elk stepped right above a tray at C and caused a cave in; eld poop in many trays
-CR04,low,6.145331217,convex,1.855689697,6.24.25,TK.CC.JN,11:49,71,69,78,65,2381.601058,295.7296987,NW,"little vegetation growing in trays; some trays have a lot of ants; N group faced N, all other groups faced W"
-CR05,low,5.675108303,convex,3.053227132,6.23.25,TK.CC.JN,16:54,36,40,42,27,2300.160556,318.6631805,NW,some hoof prints in trays; low germination overall; E tray with 7 germinants was shaded by tree (dead); canopy cover is counting open quadrats in densiometer. 
-CR06,low,4.345108609,convex,2.023981425,6.25.25,TK.CC.JN,14:50,72,73,83,76,2267.46088,218.1173309,SW,groups mostly face w
-CR07,high,11.3737007,concave,-3.085792169,6.24.25,TK.CC.JN,14:55,86,69,68,66,2323.891793,43.82147943,NE,S. pico got a new tray
-CR08,high,14.21430678,concave,-4.881052043,6.25.25,TK.CC.JN,13:24,35,34,88,81,2304.43609,256.741305,W,Very steep; lots of damaged trays
-CR09,high,11.14435954,concave,-2.298519762,6.25.25,TK.CC.JN,11:55,60,76,68,77,2301.031624,236.3520098,SW,"many damaged trays, some pretty washed out; trays face SW"
-CR10,low,3.324239502,concave,-1.13975491,6.25.25,TK.CC.JN,8:45,65,57,50,57,2291.218746,319.9211703,NW,"in plot photos, firest CR10 E should be W; lots of fireweed around; plot is kind of convex, but may be concave compared to surrounding landscape (drawing on datasheet)"
-CR11,low,4.441708408,concave,-3.232536723,6.24.25,TK.CC.JN,17:00,93,69,82,96,2296.530443,262.0325061,W,river plot; lots of non-planted vegetation growing in some trays
-CR12,low,5.190922004,concave,-2.135958828,6.25.25,TK.CC.JN,10:20,89,75,79,69,2449.109532,274.5211319,W,lots of damaged trays
+SiteID,Date,Investigators,tomst.intallation.time,canopy.cover.N,canopy.cover.E,canopy.cover.S,canopy.cover.W,Notes.spring
+CR01,6.24.25,TK.CC.JN,10:34,82,67,67,87,"""thunderstorm plot""; plot faces N; full of hollyhock; S group faces SW, all others N; note for future studies: preemtively put duct tape on tray corners at installation since that is where they tend to break"
+CR02,6.24.25,TK.CC.JN,13:11,51,44,54,68,four hoof prints in N pico; lots of Pearson's milkvetch and hollyhocks
+CR03,6.24.25,TK.CC.JN,9:24,58,64,88,81,C and S groups in short aspen grove; elk stepped right above a tray at C and caused a cave in; eld poop in many trays
+CR04,6.24.25,TK.CC.JN,11:49,71,69,78,65,"little vegetation growing in trays; some trays have a lot of ants; N group faced N, all other groups faced W"
+CR05,6.23.25,TK.CC.JN,16:54,36,40,42,27,some hoof prints in trays; low germination overall; E tray with 7 germinants was shaded by tree (dead); canopy cover is counting open quadrats in densiometer. 
+CR06,6.25.25,TK.CC.JN,14:50,72,73,83,76,groups mostly face w
+CR07,6.24.25,TK.CC.JN,14:55,86,69,68,66,S. pico got a new tray
+CR08,6.25.25,TK.CC.JN,13:24,35,34,88,81,Very steep; lots of damaged trays
+CR09,6.25.25,TK.CC.JN,11:55,60,76,68,77,"many damaged trays, some pretty washed out; trays face SW"
+CR10,6.25.25,TK.CC.JN,8:45,65,57,50,57,"in plot photos, firest CR10 E should be W; lots of fireweed around; plot is kind of convex, but may be concave compared to surrounding landscape (drawing on datasheet)"
+CR11,6.24.25,TK.CC.JN,17:00,93,69,82,96,river plot; lots of non-planted vegetation growing in some trays
+CR12,6.25.25,TK.CC.JN,10:20,89,75,79,69,lots of damaged trays
