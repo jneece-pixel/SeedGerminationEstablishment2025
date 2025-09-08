@@ -46,7 +46,6 @@ germ<-germ %>% mutate(canopy.cover.E= 100- (canopy.cover.E*1.04),
                 canopy.cover.W= 100- (canopy.cover.W*1.04))
 germ$canopy.cover.mean<- rowSums(germ[, 10:13])/4
 
-#write.csv(germ, "germination_establishment.summaries.csv", row.names = FALSE)
 rm(germ.data); rm(germ.plot); rm(germ_est.summary); rm(plot.summary)
 
 #reading in plot topography data
@@ -61,58 +60,4 @@ gis.data<- gis.data %>%
 #merging gis and summary data
 germ<- merge(germ, gis.data, by= "SiteID")
 
-#Plot attributes
-germ %>% summarize(mean.TRI= mean(TRI.30), SE.TRI= std.error(TRI.30), 
-                   min.TRI= min(TRI.30), med.TRI= median(TRI.30), max.TRI= max(TRI.30))
-germ %>% summarize(mean.TPI= mean(TPI.30), SE.TPI= std.error(TPI.30), 
-                   min.TPI= min(TPI.30), med.TPI= median(TPI.30), max.TPI= max(TPI.30))
-germ %>% summarize(mean.elevation= mean(elevation.m), SE.elevation= std.error(elevation.m), 
-                   min.elevation= min(elevation.m), med.elevation= median(elevation.m), max.elevation= max(elevation.m))
-germ %>% summarize(mean.aspect= mean(aspect), SE.aspect= std.error(aspect), 
-                   min.aspect= min(aspect), med.aspect= median(aspect), max.elevation= max(aspect))
-
-## getting germination and survival means by species, by season
-
-library(plotrix)
-#germination means by species
-germ %>% group_by(Species) %>% 
-  summarize(mean.germ= mean(germ.rate.spring), SE.germ= std.error(germ.rate.spring), 
-            min.germ= min(germ.rate.spring), med.germ= median(germ.rate.spring), 
-            max.germ= max(germ.rate.spring), n= n())
-#germination (spring or fall) by species
-germ %>% group_by(Species) %>% 
-  summarize(mean.germ= mean(germ.rate.fall), SE.germ= std.error(germ.rate.fall), 
-            min.germ= min(germ.rate.fall), med.germ= median(germ.rate.fall), 
-            max.germ= max(germ.rate.fall), n= n())
-#survival (so far) means by species
-germ %>% group_by(Species) %>% 
-  summarize(mean.surv= mean(surv.rate.spring), SE.surv= std.error(surv.rate.spring), 
-            min.surv= min(surv.rate.spring), med.surv= median(surv.rate.spring), 
-            max.surv= max(surv.rate.spring), n= n())
-#survival (total) means by species
-germ %>% group_by(Species) %>% 
-  summarize(mean.surv= mean(surv.rate.fall), SE.surv= std.error(surv.rate.fall), 
-            min.surv= min(surv.rate.fall), med.surv= median(surv.rate.fall), 
-            max.surv= max(surv.rate.fall), n= n())
-
-#following instructions on densiometer for canopy cover measurements. Multiply count of open quadrants
-#by 1.04 for the percent of non-canopy cover. Take 100 minus value for estimate of canopy cover. 
-germ %>% 
-  summarize(mean= mean(canopy.cover.mean), SE.canopy= std.error(canopy.cover.mean), 
-            min.canopy= min(canopy.cover.mean), med.canopy= median(canopy.cover.mean), max.canopy= max(canopy.cover.mean))
-
-#starting to look at models. Separate models for each species
-#PICO germination rate (as of June 2025)
-anova(lm(germ.rate.june2025.logit~shape:ruggedness, data= pico.germ.june2025))
-anova(lm(germ.rate.june2025.logit~shape, data= pico.germ.june2025))
-anova(lm(germ.rate.june2025.logit~ruggedness, data= pico.germ.june2025))
-anova(lm(germ.rate.june2025.logit~elevation, data= pico.germ.june2025))
-#NOT significant: shape, ruggedness, interaction of shape:ruggedness, aspect, 
-# aspect.gen, TRI.30, TPI.30, elevation
-
-anova(lm(germ.rate.june2025.logit~shape+ruggedness, data= pico.germ.june2025))
-#shape+ruggedness is significant
-
-summary(lm(germ.rate.june2025.logit~ruggedness*shape, data= psme.germ.june2025))
-qqPlot(lm(germ.rate.june2025.logit~ruggedness*shape, data= psme.germ.june2025))
-#no evidence against normality. not perfect but small sample size
+write.csv(germ, "germination_establishment.summaries.csv", row.names = FALSE)
