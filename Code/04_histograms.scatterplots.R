@@ -16,10 +16,10 @@ psme.germ_est<- germ %>% filter(Species == "psme")
 #Untransformed data
   ## PICO germ
 pico.TPI.germ.hist <- ggplot(pico.germ_est, aes(x = germ.rate.total, fill = TPI.gen))+
-  geom_histogram(binwidth = 0.05)+
+  geom_histogram()+
   labs(title = "PICO Germination Rates")
 pico.TRI.germ.hist <- ggplot(pico.germ_est, aes(x = germ.rate.total, fill = TRI.gen))+
-  geom_histogram(binwidth = 0.05)+
+  geom_histogram()+
   labs(title = "PICO Germination Rates")
 
 pico.TPI.germ.hist / pico.TRI.germ.hist
@@ -27,10 +27,10 @@ pico.TPI.germ.hist / pico.TRI.germ.hist
 
   ## PICO survival
 pico.TPI.surv.hist <- ggplot(pico.germ_est, aes(x = surv.rate.total, fill = TPI.gen))+
-  geom_histogram(binwidth = 0.1)+
+  geom_histogram()+
   labs(title = "PICO survival Rates")
 pico.TRI.surv.hist <- ggplot(pico.germ_est, aes(x = surv.rate.total, fill = TRI.gen))+
-  geom_histogram(binwidth = 0.1)+
+  geom_histogram()+
   labs(title = "PICO survival Rates")
 
 pico.TPI.surv.hist / pico.TRI.surv.hist
@@ -38,10 +38,10 @@ pico.TPI.surv.hist / pico.TRI.surv.hist
 
   ## PSME germ
 psme.TPI.germ.hist <- ggplot(psme.germ_est, aes(x = germ.rate.total, fill = TPI.gen))+
-  geom_histogram(binwidth = 0.05)+
+  geom_histogram()+
   labs(title = "PSME Germination Rates")
 psme.TRI.germ.hist <- ggplot(psme.germ_est, aes(x = germ.rate.total, fill = TRI.gen))+
-  geom_histogram(binwidth = 0.05)+
+  geom_histogram()+
   labs(title = "PSME Germination Rates")
 
 psme.TPI.germ.hist / psme.TRI.germ.hist
@@ -49,29 +49,14 @@ psme.TPI.germ.hist / psme.TRI.germ.hist
 
   ## PSME survival
 psme.TPI.surv.hist <- ggplot(subset(psme.germ_est, !is.na(surv.rate.total)), aes(x = surv.rate.total, fill = TPI.gen))+
-  geom_histogram(binwidth = 0.05)+
+  geom_histogram()+
   labs(title = "PSME Survival Rates")
 psme.TRI.surv.hist <- ggplot(subset(psme.germ_est, !is.na(surv.rate.total)), aes(x = surv.rate.total, fill = TRI.gen))+
-  geom_histogram(binwidth = 0.05)+
+  geom_histogram()+
   labs(title = "PSME Survival Rates")
 
 psme.TPI.surv.hist / psme.TRI.surv.hist
 #ggsave("Output/psme.surv.hist.svg")
-
-#visualising data with histograms
-#logit-transformed data
-## PICO germ
-ggplot(pico.germ_est, aes(x = germ.rate.total.logit))+
-  geom_histogram(binwidth = 0.5)
-## PICO survival
-ggplot(pico.germ_est, aes(x = surv.rate.total.logit))+
-  geom_histogram(binwidth = 0.5)
-## PSME germination
-ggplot(psme.germ_est, aes(x = germ.rate.total.logit))+
-  geom_histogram(binwidth = 0.5)
-## PSME survival
-ggplot(subset(psme.germ_est, !is.na(surv.rate.total)), aes(x = surv.rate.total.logit))+
-  geom_histogram(binwidth = 0.5)
 
 #visualizing with scatterplots
 #PICO

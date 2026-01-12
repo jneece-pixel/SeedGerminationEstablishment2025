@@ -2,47 +2,48 @@
 library(tidyverse)
 
 ## reading in tomst data
-tomst_files <- c("Data/Tomst Data/cr01_calibrated_tomst.csv",
-                 "Data/Tomst Data/cr02_calibrated_tomst.csv",
-                 "Data/Tomst Data/cr03_calibrated_tomst.csv",
-                 "Data/Tomst Data/cr04_calibrated_tomst.csv",
-                 "Data/Tomst Data/cr05_calibrated_tomst.csv",
-                 "Data/Tomst Data/cr06_calibrated_tomst.csv",
-                 "Data/Tomst Data/cr07_calibrated_tomst.csv",
-                 "Data/Tomst Data/cr08_calibrated_tomst.csv",
-                 "Data/Tomst Data/cr09_calibrated_tomst.csv",
-                 "Data/Tomst Data/cr10_calibrated_tomst.csv",
-                 "Data/Tomst Data/cr11_calibrated_tomst.csv",
-                 "Data/Tomst Data/cr12_calibrated_tomst.csv")
+tomst_files <- c("Data/Tomst Data/CR01.csv",
+                 "Data/Tomst Data/CR02.csv",
+                 "Data/Tomst Data/CR03.csv",
+                 "Data/Tomst Data/CR04.csv",
+                 "Data/Tomst Data/CR05.csv",
+                 "Data/Tomst Data/CR06.csv",
+                 "Data/Tomst Data/CR07.csv",
+                 "Data/Tomst Data/CR08.csv",
+                 "Data/Tomst Data/CR09.csv",
+                 "Data/Tomst Data/CR10.csv",
+                 "Data/Tomst Data/CR11.csv",
+                 "Data/Tomst Data/CR12.csv")
 
 tomst<- read_delim(tomst_files, 
                    delim = ";", 
                    id = "file", 
                    col_names = c("index", "date.time", 
                                  "temp.soil.c", "temp.ground.c", "temp.air.c", 
-                                 "soil.moisture.content.percentVol",
-                                 "shake", "errFlag"), 
+                                 "soil.moisture",
+                                 "soil.moisture.percentVol",
+                                 "errFlag"), 
                    skip = 1)
 
 ## adding column for SiteID
 tomst<- tomst %>% mutate(SiteID = 
-  ifelse(file == "Data/Tomst Data/cr01_calibrated_tomst.csv", "CR01", 
-         ifelse(file == "Data/Tomst Data/cr02_calibrated_tomst.csv","CR02", 
-                ifelse(file == "Data/Tomst Data/cr03_calibrated_tomst.csv","CR03",
-                       ifelse(file == "Data/Tomst Data/cr04_calibrated_tomst.csv","CR04", 
-                              ifelse(file == "Data/Tomst Data/cr05_calibrated_tomst.csv","CR05", 
-                                     ifelse(file == "Data/Tomst Data/cr06_calibrated_tomst.csv","CR06", 
-                                            ifelse(file == "Data/Tomst Data/cr07_calibrated_tomst.csv","CR07", 
-                                                   ifelse(file == "Data/Tomst Data/cr08_calibrated_tomst.csv","CR08", 
-                                                          ifelse(file == "Data/Tomst Data/cr09_calibrated_tomst.csv","CR09", 
-                                                                 ifelse(file == "Data/Tomst Data/cr10_calibrated_tomst.csv","CR10", 
-                                                                        ifelse(file == "Data/Tomst Data/cr11_calibrated_tomst.csv","CR11", 
+  ifelse(file == "Data/Tomst Data/CR01.csv", "CR01", 
+         ifelse(file == "Data/Tomst Data/CR02.csv","CR02", 
+                ifelse(file == "Data/Tomst Data/CR03.csv","CR03",
+                       ifelse(file == "Data/Tomst Data/CR04.csv","CR04", 
+                              ifelse(file == "Data/Tomst Data/CR05.csv","CR05", 
+                                     ifelse(file == "Data/Tomst Data/CR06.csv","CR06", 
+                                            ifelse(file == "Data/Tomst Data/CR07.csv","CR07", 
+                                                   ifelse(file == "Data/Tomst Data/CR08.csv","CR08", 
+                                                          ifelse(file == "Data/Tomst Data/CR09.csv","CR09", 
+                                                                 ifelse(file == "Data/Tomst Data/CR10.csv","CR10", 
+                                                                        ifelse(file == "Data/Tomst Data/CR11.csv","CR11", 
                                                                                "CR12"))))))))))),
   .before = index
 )
 
-## removing "file" column
-tomst<- tomst[, -c(1)]
+## removing "file" and "errFlag" columns
+tomst<- tomst[, -c(1, 10)]
 
 
 ## separating date and time into separate columns
@@ -93,6 +94,12 @@ tomst.final <- tomst.final |> filter(
 tomst.final <-  tomst.final |> 
   separate(date, c("year", "month", "day"), sep = "-", remove = FALSE)
 
-write_csv(tomst.final, "Data/Tomst Data/tomst.csv")
 
+## Adding column for factorial combination
+tomst.final <- tomst.final %>% 
+  mutate(site.type = ifelse(SiteID == "CR01" | SiteID =="CR02" | SiteID =="CR03", "convex.rugged", 
+                            ifelse(SiteID == "CR04" | SiteID =="CR05"| SiteID =="CR06", "convex.gentle", 
+                                   ifelse(SiteID == "CR07" | SiteID =="CR08" | SiteID =="CR09", "concave.rugged",
+                                          "concave.gentle"))))
 
+#write_csv(tomst.final, "Data/Tomst Data/tomst.csv")

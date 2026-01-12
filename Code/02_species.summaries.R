@@ -17,28 +17,77 @@ germ %>% summarize(mean.aspect= mean(aspect), SE.aspect= std.error(aspect),
 germ %>% summarize(mean= mean(canopy.cover.mean), SE.canopy= std.error(canopy.cover.mean), 
                    min.canopy= min(canopy.cover.mean), med.canopy= median(canopy.cover.mean), max.canopy= max(canopy.cover.mean))
 
-## getting germination and survival means by species, by season
+## Germination and survival means by species, factorial combo, and season
 
-#Spring germination means by species
-germ %>% group_by(Species) %>% 
+#Spring germination means 
+spring.germ.means <- germ %>% group_by(TPI.gen, TRI.gen, Species) %>% 
   summarize(mean.germ= mean(germ.rate.spring, na.rm = TRUE), SE.germ= std.error(germ.rate.spring, na.rm = TRUE), 
             min.germ= min(germ.rate.spring, na.rm = TRUE), med.germ= median(germ.rate.spring, na.rm = TRUE), 
             max.germ= max(germ.rate.spring, na.rm = TRUE), n= n())
 
-#Total germination by species
-germ %>% group_by(Species) %>% 
+#Total germination
+germ %>%summarize(mean.germ= mean(germ.rate.total, na.rm = TRUE), SE.germ= std.error(germ.rate.total, na.rm = TRUE), 
+            min.germ= min(germ.rate.total, na.rm = TRUE), med.germ= median(germ.rate.total, na.rm = TRUE), 
+            max.germ= max(germ.rate.total, na.rm = TRUE), n= n())
+total.germ.means <- germ %>% group_by(TPI.gen, TRI.gen) %>% 
+  summarize(mean.germ= mean(germ.rate.total, na.rm = TRUE), SE.germ= std.error(germ.rate.total, na.rm = TRUE), 
+            min.germ= min(germ.rate.total, na.rm = TRUE), med.germ= median(germ.rate.total, na.rm = TRUE), 
+            max.germ= max(germ.rate.total, na.rm = TRUE), n= n())
+germ %>% group_by(TPI.gen, Species) %>% 
+  summarize(mean.germ= mean(germ.rate.total, na.rm = TRUE), SE.germ= std.error(germ.rate.total, na.rm = TRUE), 
+            min.germ= min(germ.rate.total, na.rm = TRUE), med.germ= median(germ.rate.total, na.rm = TRUE), 
+            max.germ= max(germ.rate.total, na.rm = TRUE), n= n())
+germ %>% group_by(TRI.gen, Species) %>% 
   summarize(mean.germ= mean(germ.rate.total, na.rm = TRUE), SE.germ= std.error(germ.rate.total, na.rm = TRUE), 
             min.germ= min(germ.rate.total, na.rm = TRUE), med.germ= median(germ.rate.total, na.rm = TRUE), 
             max.germ= max(germ.rate.total, na.rm = TRUE), n= n())
 
-#Spring survival means by species
+#Spring survival means 
+spring.surv.means <- germ %>% group_by(TPI.gen, TRI.gen, Species) %>% 
+  summarize(mean.surv= mean(surv.rate.spring, na.rm = TRUE), SE.surv= std.error(surv.rate.spring, na.rm = TRUE), 
+            min.surv= min(surv.rate.spring, na.rm = TRUE), med.surv= median(surv.rate.spring, na.rm = TRUE), 
+            max.surv= max(surv.rate.spring, na.rm = TRUE), n= 3-sum(is.na(surv.rate.spring)))
 germ %>% group_by(Species) %>% 
-  summarize(mean.surv= mean(surv.rate.spring), SE.surv= std.error(surv.rate.spring), 
-            min.surv= min(surv.rate.spring), med.surv= median(surv.rate.spring), 
-            max.surv= max(surv.rate.spring), n= n())
+  summarize(mean.surv= mean(surv.rate.spring, na.rm = TRUE), SE.surv= std.error(surv.rate.spring, na.rm = TRUE), 
+            min.surv= min(surv.rate.spring, na.rm = TRUE), med.surv= median(surv.rate.spring, na.rm = TRUE), 
+            max.surv= max(surv.rate.spring, na.rm = TRUE), n= 3-sum(is.na(surv.rate.spring)))
+germ %>% group_by(TRI.gen,Species) %>% 
+  summarize(mean.surv= mean(surv.rate.spring, na.rm = TRUE), SE.surv= std.error(surv.rate.spring, na.rm = TRUE), 
+            min.surv= min(surv.rate.spring, na.rm = TRUE), med.surv= median(surv.rate.spring, na.rm = TRUE), 
+            max.surv= max(surv.rate.spring, na.rm = TRUE), n= 3-sum(is.na(surv.rate.spring)))
+germ %>% group_by(TPI.gen,Species) %>% 
+  summarize(mean.surv= mean(surv.rate.spring, na.rm = TRUE), SE.surv= std.error(surv.rate.spring, na.rm = TRUE), 
+            min.surv= min(surv.rate.spring, na.rm = TRUE), med.surv= median(surv.rate.spring, na.rm = TRUE), 
+            max.surv= max(surv.rate.spring, na.rm = TRUE), n= 3-sum(is.na(surv.rate.spring)))
 
-#survival (total) means by species
+#survival (total) means 
+total.surv.means <- germ %>% group_by(TPI.gen, TRI.gen) %>% 
+  summarize(mean.surv= mean(surv.rate.total, na.rm= TRUE), SE.surv= std.error(surv.rate.total, na.rm= TRUE), 
+            min.surv= min(surv.rate.total, na.rm= TRUE), med.surv= median(surv.rate.total, na.rm= TRUE), 
+            max.surv= max(surv.rate.total, na.rm= TRUE), n= 6-sum(is.na(surv.rate.total)))
+germ %>% group_by(TPI.gen, Species) %>% 
+  summarize(mean.surv= mean(surv.rate.total, na.rm= TRUE), SE.surv= std.error(surv.rate.total, na.rm= TRUE), 
+            min.surv= min(surv.rate.total, na.rm= TRUE), med.surv= median(surv.rate.total, na.rm= TRUE), 
+            max.surv= max(surv.rate.total, na.rm= TRUE), n= 6-sum(is.na(surv.rate.total)))
+germ %>% group_by(TRI.gen, Species) %>% 
+  summarize(mean.surv= mean(surv.rate.total, na.rm= TRUE), SE.surv= std.error(surv.rate.total, na.rm= TRUE), 
+            min.surv= min(surv.rate.total, na.rm= TRUE), med.surv= median(surv.rate.total, na.rm= TRUE), 
+            max.surv= max(surv.rate.total, na.rm= TRUE), n= 6-sum(is.na(surv.rate.total)))
+
+#establishment (total survival / potential germination)
+estab.means <- germ %>% group_by(TPI.gen, TRI.gen) %>% 
+  summarize(mean.estab= mean(estab.rate.total, na.rm= TRUE), SE.estab= std.error(estab.rate.total, na.rm= TRUE), 
+            min.estab= min(estab.rate.total, na.rm= TRUE), med.estab= median(estab.rate.total, na.rm= TRUE), 
+            max.estab= max(estab.rate.total, na.rm= TRUE), n= 6-sum(is.na(estab.rate.total)))
 germ %>% group_by(Species) %>% 
-  summarize(mean.surv= mean(surv.rate.fall, na.rm= TRUE), SE.surv= std.error(surv.rate.fall, na.rm= TRUE), 
-            min.surv= min(surv.rate.fall, na.rm= TRUE), med.surv= median(surv.rate.fall, na.rm= TRUE), 
-            max.surv= max(surv.rate.fall, na.rm= TRUE), n= n())
+  summarize(mean.estab= mean(estab.rate.total, na.rm= TRUE), SE.estab= std.error(estab.rate.total, na.rm= TRUE), 
+            min.estab= min(estab.rate.total, na.rm= TRUE), med.estab= median(estab.rate.total, na.rm= TRUE), 
+            max.estab= max(estab.rate.total, na.rm= TRUE), n= 6-sum(is.na(estab.rate.total)))
+germ %>% group_by(TPI.gen, Species) %>% 
+  summarize(mean.estab= mean(estab.rate.total, na.rm= TRUE), SE.estab= std.error(estab.rate.total, na.rm= TRUE), 
+            min.estab= min(estab.rate.total, na.rm= TRUE), med.estab= median(estab.rate.total, na.rm= TRUE), 
+            max.estab= max(estab.rate.total, na.rm= TRUE), n= 6-sum(is.na(estab.rate.total)))
+germ %>% group_by(TRI.gen, Species) %>% 
+  summarize(mean.estab= mean(estab.rate.total, na.rm= TRUE), SE.estab= std.error(estab.rate.total, na.rm= TRUE), 
+            min.estab= min(estab.rate.total, na.rm= TRUE), med.estab= median(estab.rate.total, na.rm= TRUE), 
+            max.estab= max(estab.rate.total, na.rm= TRUE), n= 6-sum(is.na(estab.rate.total)))
